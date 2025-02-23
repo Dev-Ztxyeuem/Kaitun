@@ -1109,22 +1109,7 @@ fruitMap[#fruitMap+1]="Bird-Bird: Phonex"
          --<---------- func ---------->--
 
 
-
-
-
-
-
-         local bM = {}
-
-         local HttpService = game:GetService("HttpService")
-         local bN = "!Blacklist_Servers.json"
-         function SaveSettings2()
-            local HttpService = game:GetService("HttpService")
-            if not isfolder(".nexus/utils/") then
-               makefolder(".nexus/utils/")
-            end
-            writefile(".nexus/utils/" .. bN, HttpService:JSONEncode(bM))
-         end
+        
        
 
          function HopServer(bO)
