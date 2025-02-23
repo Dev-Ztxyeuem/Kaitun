@@ -1084,9 +1084,8 @@ fruitMap[#fruitMap+1]="Bird-Bird: Phonex"
           --  game.ReplicatedStorage.Effect.Container.Death:Destroy()
   --          game.ReplicatedStorage.Effect.Container.Respawn:Destroy()
             game.ReplicatedStorage.Effect.Container.Hit:Destroy()
-         end
-         ) 
-           while wait() and game.Players.LocalPlayer.Team == nil do
+         end)
+        while wait() and game.Players.LocalPlayer.Team == nil do
             if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
                repeat
                   wait()
@@ -1104,6 +1103,8 @@ fruitMap[#fruitMap+1]="Bird-Bird: Phonex"
                until game.Players.LocalPlayer.Team ~= nil
             end
          end
+         TextLabel1.Text = "Items 2"
+
 
 
          --<---------- func ---------->--
