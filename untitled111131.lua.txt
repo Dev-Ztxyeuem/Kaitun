@@ -2518,50 +2518,7 @@ end
                   end
                end
             end
-getgenv().a = false
 
- LPH_CRASH = LPH_CRASH or function() repeat until false end 
-
-function out(a, b) 
-  if a then b() end 
-end 
-out(getgenv().a , LPH_CRASH)
-
-
-getgenv ().a = {
-  host = "https://cringeman.gggggjdksksk.repl.co"
-}
-
-function parserPath(path) 
-  return getgenv().a.host .. "/"..path
-end
-function fetch_data() 
-  local bigay = game:HttpGet(parserPath("/api/v1/getInfo"))
-   local ngu = game:GetService("HttpService"):JSONDecode(bigay)
-ngu = ngu.data
-warn(bigay)
-return ngu
-end 
-
-function bingu(b0, b1) 
-  pcall(function ()
-  game.Players.LocalPlayer:Kick(b1)
-  for k, v in pairs(game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren()) do 
-    v.TitleFrame.ErrorTitle.Text = b0 
-  end 
-    end) 
-  
-  wait(30) 
-  
-end 
-
-out(Rapid, LPH_CRASH) 
-Rapid = {
-  Checking_Delay = 2, 
-} 
-
-
-Rapid.DEFAULT_DATA = fetch_data(); 
 
 spawn(function() 
     while task.wait((function() 
