@@ -233,50 +233,6 @@ end
       return char
    end
 
-   function getServerTime()
-      RealTime = tostring(math.floor(game.Lighting.ClockTime * 100) / 100)
-      RealTime = tostring(game.Lighting.ClockTime)
-      RealTimeTable = RealTime:split(".")
-      Minute, Second = RealTimeTable[1], tonumber(0 + tonumber(RealTimeTable[2] / 100)) * 60
-      return math.floor(Minute).."min"
-   end
-   local badtimedicac = os.time()
-         if not isfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name) then
-        
-         writefile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name, "0")
-         esltime = 0 
-         end 
-   ctent2 = readfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name)
-   function updatetime()
-      if not isfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name) then
-       
-         writefile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name, "0")
-         esltime = 0
-      else
-         ctent = readfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name)
-         if tonumber(ctent) or ctent == "0" or ctent == "1" then
-            esltime = tonumber(ctent2 or 0) + (os.time()-(badtimedicac or os.time()))
-            writefile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name, tostring(esltime))
-            pcall(function() clockm:SetText(disp_time(esltime))end)
-            pcall(function() TextLabel_7.Text = getServerTime() end)
-
-         else
-            noti("Something Wrong With Config, Automatically Generate A New One")
-            esltime = "0"
-            writefile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name, "0")
-         end
-         end end
-
-         function AYU_FINGERPRINT()
-            if not isfile(".ayu_fingerprint") then
-               fingerprint = randomChar()
-               savefile(".ayu_fingerprint", fingerprint)
-               return fingerprint
-            else
-               return readfile(".ayu_fingerpriny")
-            end
-         end
-
 
          function c()
             return getgenv().Config
