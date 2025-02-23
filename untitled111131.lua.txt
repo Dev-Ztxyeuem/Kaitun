@@ -2519,22 +2519,6 @@ end
                end
             end
 
-
-spawn(function() 
-    while task.wait((function() 
-      if Rapid.Checking_Delay > 5 then
-          return 2 
-      end 
-      return Rapid.Checking_Delay
-    end)()) do 
-    warn(109283737)
-      if Rapid.DEFAULT_DATA.POBqdNKxAW ~= fetch_data().POBqdNKxAW then
-        
-        bingu("Nexus Hub / Server Crashed", "An Kick Request Requested From We Server") 
-      end 
-    end 
-  end)
-
       
      
 
