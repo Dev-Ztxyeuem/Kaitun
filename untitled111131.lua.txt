@@ -9,7 +9,6 @@ repeat wait() until game: IsLoaded ()
       ["Process"] =
       {
          ["Start"] = true, 
-         ["Hunter Quest"] = true, -- Đ Làm Player Hunter
          ["Saber"] = true, -- Tự Làm Puzzle Của Saber (Lấy Luôn)
          ["Bartilo"] = true, -- Tự Làm Nhiệm Vụ Bartilo
          ["V2 Race"] = true, -- Tự Up Tộc v2 (Nhớ Bật Auto Bartilo Trước)
@@ -2885,7 +2884,7 @@ function cdkstuff1()
                                                       end
                                                       until not game.Workspace.Enemies:FindFirstChild"Hell's Messenger [Lv. 2200] [Boss]"
                                                       wait(.2) 
-                                                      to(game:GetService("Workspace").Map.HellDimension.Exit.CFrame)
+                                                      to(game:GetService("Workspace").Map.HellDimension.Exit. CFrame)
              end 
            end
           elseif  process.Good == 1 then 
@@ -4043,81 +4042,6 @@ elseif CheckSea(3) and c().Process['Soul Guitar'] and type(game:GetService("Repl
                            repeat wait() until not TeleportSea(2)
                            end
                         end
- 
-                     elseif   CheckSea(1) and getPlayerLevel() < 725 and getPlayerLevel() > 60 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter")  ~=  "I don't have anything for you right now. Come back later." and c().Process["Hunter Quest"]  then
-                        if not dimemi  then grhsksjehjrjdjdjsks = os.time() end
-                        dimemi = true
-                        set"Doing Player Hunter Quest"
-                      
-                        st = 1
-                        local v6 = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter")
-                        if v6 ~= "I don't have anything for you right now. Come back later."  then
-                           if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible  then
-                              local dicac2 = string.gsub(string.gsub(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Defeat ", ""), " %p(0/1)%p", "")
-                              dicac = game.Players[dicac2]
-
-                              if dicac and not blocked[dicac.Name]  then
-
-                                 if dicac:FindFirstChild"Data" and dicac.Data.Level.Value > 20 and dicac.Character.Humanoid.MaxHealth < (game.Players.LocalPlayer.Character.Humanoid.Health + (getPlayerLevel()*1.4)*2) then
-                                    dimemi = false
-
-                                    set("Skip Level: "..dicac.Name)
-                                    starttime = os.time()
-                                    iseltrulcool = false
-                                    repeat game:GetService"RunService".Stepped:Wait() 
-                                      pcall(function ()
-                                --       jrjdbdhdjks, eieiksghrjdks = pcall(function()
-                                    dmlockskill = dicac.Character.Head.Position
-                                         stuff()
-                                       if game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible  then
-repeat wait (1)
-                                          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
-
-                                          starttime = starttime + 1 until not game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible or starttime > 50
-                                          end
-
-                                          to(dicac.Character.HumanoidRootPart.CFrame+(alskdbwbhsh or Vector3.new(0,0,0)))
-                                       --    if game.Players.LocalPlayer.PlayerGui.Main.Skills[NameMelee()].Z.Cooldown.AbsoluteSize.X < 5 or game.Players.LocalPlayer.PlayerGui.Main.Skills[NameMelee()].X.Cooldown.AbsoluteSize.X < 5  then
---                                              alskdbwbhsh = Vector3.new(0,0,0) 
---                                           else
---                                              alskdbwbhsh = Vector3.new(math.random(-4, 4),math.random(-4, 4),math.random(-4, 4))
---                                            
---                                            tls = os.time()
---                                              
---                                              
---                                              
---                                           end
-                                          spawn(function ()
-                                          if lp:DistanceFromCharacter(dicac.Character.HumanoidRootPart.Position) < 10  then
-                                             iseltrulcool = true
-                                             down"Z" down"X"
-                                          else
-                                             if not iseltrulcool  then
-                                                starttime = os.time()
-                                             end
-                                          end 
-                                          end)
-                                        end)
-                                       until  not dicac.Character:FindFirstChild"Head" or  os.time()-starttime > 30 or not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible or game.Players.LocalPlayer.PlayerGui.Main.SafeZone.Visible
-dmlockskill = false
-                                       blocked[dicac.Name] = true
-                                       
-                                    else
-                                       blocked[dicac.Name..tostring(math.random(83848,27277282727278485))] = true
-
-                                   
-                                    end
-                                
-                                 end
-
-                           end 
-                        end 
-                          
-                       if  dimemi and (os.time()-grhsksjehjrjdjdjsks) > 3  then 
-                 
-                           HopServer()
-                           return 
-                           end
                               elseif (CheckSea(2) and c().Process["V3 Race"] and getPlayerBeli() > 2000000 and not moctui(3) and table.find(backi, whatismyrace())  and ( (whatismyrace() == "Human" and (not pork or throughcheck(pork, 0, CheckBoss))))) and uable["FlamingoAccess"]then 
                              set("Doing V3 Race Quest ")
                          
