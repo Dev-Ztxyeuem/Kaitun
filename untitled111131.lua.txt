@@ -1125,26 +1125,7 @@ fruitMap[#fruitMap+1]="Bird-Bird: Phonex"
             end
             writefile(".nexus/utils/" .. bN, HttpService:JSONEncode(bM))
          end
-         function ReadSetting2()
-            local s, o =
-            pcall(
-            function()
-               local HttpService = game:GetService("HttpService")
-               Hub = game:GetService("HttpService")
-               if not isfolder(".nexus/utils/") then
-                  makefolder(".nexus/utils/")
-               end
-               return HttpService:JSONDecode(readfile(".nexus/utils/" .. bN))
-            end
-            )
-            if s then
-               return o
-            else
-               SaveSettings2()
-               return ReadSetting2()
-            end
-         end
-         bM = ReadSetting2()
+       
 
          function HopServer(bO)
             if not bO then
