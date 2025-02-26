@@ -51,15 +51,9 @@ elseif placeId == 7449423635 then
     Sea = "Zou"
 end
 
-spawn(function()
-		while wait(150) do
-			if AFK then
-				game:service('VirtualInputManager'):SendKeyEvent(true, "Space", false, game)
-				wait(0.5)
-				game:service('VirtualInputManager'):SendKeyEvent(false, "Space", false, game)
-
-
-
+local GetQuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title
+local GetQuest = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest
+local MyLevel = game.Players.LocalPlayer.Data.Level.Value
 
 ——-Tween
 
@@ -267,7 +261,6 @@ function AddNoknockback(enemy)
 end 
 
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
-_G.Ticktp = tick() 
 local tween_s = game:service "TweenService"
 function Tweento(targetCFrame)
     if CheckPlayerAlive() then
@@ -284,8 +277,6 @@ function Tweento(targetCFrame)
             game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
         if Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
-            _G.Ticktp = tick()
-            return
         end
         local bmg, bmg2 = CheckNearestTeleporter(targetCFrame)
         if bmg then
@@ -372,10 +363,112 @@ function CheckPlayerAlive()
     task.wait()
     if a2 then return b2 end 
 end   
-function sortSwordsByRarity(swords)
-    table.sort(swords, function(a, b)
-        return a.Rarity > b.Rarity
-    end) 
-    return swords[1]
-end
 
+function equip(tooltip)
+               local player = game.Players.LocalPlayer
+               local character = player.Character or player.CharacterAdded:Wait()
+               for _, item in pairs(player.Backpack:GetChildren()) do
+                  if item:IsA("Tool") and item.ToolTip == tooltip then
+                     local humanoid = character:FindFirstChildOfClass("Humanoid")
+                     if humanoid and not humanoid:IsDescendantOf(item) then
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(item)
+                        return item
+                     end
+                  end
+               end
+
+
+function NameMelee(a)
+            a = a or false
+            for r, v in next, game:GetService("Players").LocalPlayer.Backpack:GetChildren() do
+               if v:IsA("Tool") and v.ToolTip == "Melee" then
+                  if a then
+                     return v
+                  else
+                     return v.Name
+                  end
+               end
+            end
+            for r, v in next, game:GetService("Players").LocalPlayer.Character:GetChildren() do
+               if v:IsA("Tool") and v.ToolTip == "Melee" then
+                  if a then
+                     return v
+                  else
+                     return v.Name
+                  end
+               end
+            end
+         end
+         function NameDf(a)
+            a = a or false
+            for r, v in next, game:GetService("Players").LocalPlayer.Backpack:GetChildren() do
+               if v:IsA("Tool") and v.ToolTip == "Blox Fruit" then
+                  if a then
+                     return v
+                  else
+                     return v.Name
+                  end
+               end
+            end
+            for r, v in next, game:GetService("Players").LocalPlayer.Character:GetChildren() do
+               if v:IsA("Tool") and v.ToolTip == "Blox Fruit" then
+                  if a then
+                     return v
+                  else
+                     return v.Name
+                  end
+               end
+            end 
+            return "Bomb-Bomb"
+         end
+
+if not string.find(GetQuestTitle.Text, NameCheckQuest) then Com("F_","AbandonQuest"); end
+		if GetQuest.Visible == false then
+			StartMagnetFarmLevel = false
+			if (CFrameQuest.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 150 then
+				Questtween = Tweento(CFrameQuest)
+			elseif (CFrameQuest.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 150 then
+				if Questtween then Questtween:Stop() end
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrameQuest
+				task.wait(0.95)
+				Com("F_","StartQuest", NameQuest, LevelQuest)
+				Com("F_","SetSpawnPoint")
+			end
+		elseif GetQuest.Visible == true then
+			if game:GetService("Workspace").Enemies:FindFirstChild(Monster) then
+				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+					if StartKaiTun and v.Name == Monster and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+						if string.find(GetQuestTitle.Text, NameCheckQuest) then
+							repeat task.wait()
+								if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") then
+									if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 150 then
+										FarmtoTarget = Tweento(v.HumanoidRootPart.Position,v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+									elseif (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 150 then
+										if FarmtoTarget then FarmtoTarget:Stop() end
+										
+										equip "Melee" 
+										StartMagnetFarmLevel = true
+										PosMon = v.HumanoidRootPart.CFrame
+										toAroundTarget(v.HumanoidRootPart.CFrame)
+									end
+								end
+							until not game:GetService("Workspace").Enemies:FindFirstChild(Monster) or not StartKaiTun or not string.find(GetQuestTitle.Text, NameCheckQuest) or v.Humanoid.Health <= 0 or not v.Parent or GetQuest.Visible == false
+							StartMagnetFarmLevel = false
+						else
+							Com("F_","AbandonQuest");
+						end
+					end
+				end
+			else
+				StartMagnetFarmLevel = false
+				if (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 150 then
+					Modstween = Tweento(CFrameMon)
+				elseif (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 150 then
+					if Modstween then Modstween:Stop() end
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrameMon
+					task.wait(0.314285714286)
+				end 
+			end
+		end
+	end
+end
