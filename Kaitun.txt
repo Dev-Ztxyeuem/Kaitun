@@ -370,7 +370,7 @@ function GetMob()
     end
 end
 
-function checkq()
+function S()
             local T = game.Players.LocalPlayer.Data.Level.Value
             local min = 0
             if T >= 1450 and game.PlaceId == 4442272183 then
