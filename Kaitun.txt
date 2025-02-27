@@ -251,8 +251,7 @@ function MobLevel1OrMobLevel2()
     return false
 end
 local ad = game.ReplicatedStorage.Remotes["CommF_"]
-CFrameQuest()
-function CheckLevel()
+function CFrameQuest()
     if game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then
         return
     end
