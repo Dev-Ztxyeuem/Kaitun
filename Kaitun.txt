@@ -413,7 +413,7 @@ function GetQuest()
 
             else
                QuestCFrame = QuestPoint[CheckDoubleQuest2().NameQuest]
-               to(QuestCFrame) 
+               topos(QuestCFrame) 
                
             end
          end
