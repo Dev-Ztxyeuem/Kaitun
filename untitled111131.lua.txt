@@ -247,7 +247,7 @@ end
          writefile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name, "0")
          esltime = 0 
          end 
-   eslapedtime."..game.Players.LocalPlayer.Name)
+   ctent2 = readfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name)
    function updatetime()
       if not isfile(".nexus/BloxFruit/Kaitun/eslapedtime."..game.Players.LocalPlayer.Name) then
        
