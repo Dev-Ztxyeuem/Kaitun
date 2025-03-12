@@ -933,254 +933,164 @@ function EquipAllWeapon()
         end
     end)
 end
-
-function IsPlayerAlive(player)
-    if not player then
-        player = game.Players.LocalPlayer
+function CheckNearestTeleporter(aI)
+    local MyLevel = game.Players.LocalPlayer.Data.Level.Value
+    local vcspos = aI.Position
+    local min = math.huge
+    local min2 = math.huge
+    local y = game.PlaceId
+    local World1, World2, World3
+    if y == 2753915549 then
+        World1 = true
+    elseif y == 4442272183 then
+        World2 = true
+    elseif y == 7449423635 then
+        World3 = true
     end
-
-    -- Kiểm tra xem đối tượng player có tồn tại và là một người chơi hợp lệ không
-    if not player or not player:IsA("Player") then
-        return false -- Trả về false nếu không phải là người chơi
-    end
-
-    -- Kiểm tra trạng thái nhân vật của người chơi
-    local character = player.Character or player:FindFirstChild('Character')
-    if not character then
-        return false -- Trả về false nếu không có nhân vật
-    end
-
-    -- Kiểm tra thanh máu của nhân vật (Humanoid)
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    if not humanoid or humanoid.Health <= 0 then
-        return false -- Trả về false nếu không có Humanoid hoặc máu bằng 0
-    end
-
-    -- Nếu tất cả các điều kiện trên đều thỏa mãn, người chơi còn sống
-    return true 
-end
-function CheckPlayerAlive()
-    local a2,b2 = pcall(function() return game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 end)
-    task.wait()
-    if a2 then return b2 end 
-end   
-
-
-local BlackListLocation = {}
-function CheckNearestTeleporter(vcs)
-    vcspos = vcs.Position
-    min = math.huge
-    min2 = math.huge
-    local placeId = game.PlaceId
-    if placeId == 2753915549 then
-        OldWorld = true
-    elseif placeId == 4442272183 then
-        NewWorld = true
-    elseif placeId == 7449423635 then
-        ThreeWorld = true
-    end
-    local chooseis
-    if ThreeWorld then
+    local TableLocations = {}
+    if World3 then
         TableLocations = {
-            ["Caslte On The Sea"] = Vector3.new(-5058.77490234375, 314.5155029296875, -3155.88330078125),
-            ["Hydra"] = Vector3.new(5756.83740234375, 610.4240112304688, -253.9253692626953),
-            ["Mansion"] = Vector3.new(-12463.8740234375, 374.9144592285156, -7523.77392578125),
-            ["Great Tree"] = Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586),
-            ["Ngu1"] = Vector3.new(-11993.580078125, 334.7812805175781, -8844.1826171875),
-            ["ngu2"] = Vector3.new(5314.58203125, 25.419387817382812, -125.94227600097656),
-            ["Temple Of Time"] = Vector3.new(2957.833740234375, 2286.495361328125, -7217.05078125)
+            ["Mansion"] = Vector3.new(-12471, 374, -7551),
+            ["Hydra"] = Vector3.new(5659, 1013, -341),
+            ["Caslte On The Sea"] = Vector3.new(-5092, 315, -3130),
+            ["Floating Turtle"] = Vector3.new(-12001, 332, -8861),
+            ["Beautiful Pirate"] = Vector3.new(5319, 23, -93),
+            ["Temple Of Time"] = Vector3.new(28286, 14897, 103)
         }
-    elseif NewWorld then
+    elseif World2 then
         TableLocations = {
-            ["Mansion"] = Vector3.new(-288.46246337890625, 306.130615234375, 597.9988403320312),
-            ["Flamingo"] = Vector3.new(2284.912109375, 15.152046203613281, 905.48291015625),
-            ["122"] = Vector3.new(923.21252441406, 126.9760055542, 32852.83203125),
-            ["3032"] = Vector3.new(-6508.5581054688, 89.034996032715, -132.83953857422)
+            ["Flamingo Mansion"] = Vector3.new(-317, 331, 597),
+            ["Flamingo Room"] = Vector3.new(2283, 15, 867),
+            ["Cursed Ship"] = Vector3.new(923, 125, 32853),
+            ["Zombie Island"] = Vector3.new(-6509, 83, -133)
         }
-    elseif OldWorld then
+    elseif World1 then
         TableLocations = {
-            ["1"] = Vector3.new(-7894.6201171875, 5545.49169921875, -380.2467346191406),
-            ["2"] = Vector3.new(-4607.82275390625, 872.5422973632812, -1667.556884765625),
-            ["3"] = Vector3.new(61163.8515625, 11.759522438049316, 1819.7841796875),
-            ["4"] = Vector3.new(3876.280517578125, 35.10614013671875, -1939.3201904296875)
+            ["Sky Island 1"] = Vector3.new(-4652, 873, -1754),
+            ["Sky Island 2"] = Vector3.new(-7895, 5547, -380),
+            ["Under Water Island"] = Vector3.new(61164, 5, 1820),
+            ["Under Water Island Entrace"] = Vector3.new(3865, 5, -1926)
         }
     end
-    local mmbb = {}
-    for i2, v2 in pairs(TableLocations) do
-        if not table.find(BlackListLocation, i2) then
-            mmbb[i2] = v2
-        end
-    end
-    local TableLocations = mmbb
     local TableLocations2 = {}
-    for i, v in pairs(TableLocations) do
-        if typeof(v) ~= "table" then
-            TableLocations2[i] = (v - vcspos).Magnitude
-        else
-            TableLocations2[i] = (v["POS"] - vcspos).Magnitude
-        end
+    for r, v in pairs(TableLocations) do
+        TableLocations2[r] = (v - vcspos).Magnitude
     end
-    for i, v in pairs(TableLocations2) do
+    for r, v in pairs(TableLocations2) do
         if v < min then
             min = v
             min2 = v
-            choose = TableLocations[i]
-            chooseis = i
         end
     end
-    min3 = (vcspos - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if min2 + 100 <= min3 then
-        return choose, chooseis
+    local choose
+    for r, v in pairs(TableLocations2) do
+        if v <= min then
+            choose = TableLocations[r]
+        end
     end
-end
-function requestEntrance(vector3, fr)
-    if not fr or fr ~= "Temple Of Time" and fr ~= "Dismension" then
-        args = {
-            "requestEntrance",
-            vector3
-        }
-        game.ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
-        oldcframe = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-        char = game.Players.LocalPlayer.Character.HumanoidRootPart
-        char.CFrame = CFrame.new(oldcframe.X, oldcframe.Y + 50, oldcframe.Z)
-        task.wait(0.5)
-    else
-        pcall(
-            function()
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer(
-                    "requestEntrance",
-                    Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586)
-                )
-                if GetDistance(CFrame.new(28282.5703125, 14896.8505859375, 105.1042709350586)) > 10 then
-                    return
-                end
-                game.Players.LocalPlayer.Character:MoveTo(
-                    CFrame.new(
-                        28390.7812,
-                        14895.8574,
-                        106.534714,
-                        0.0683786646,
-                        1.44424162e-08,
-                        -0.997659445,
-                        7.52342522e-10,
-                        1,
-                        1.45278642e-08,
-                        0.997659445,
-                        -1.74397752e-09,
-                        0.0683786646
-                    ).Position
-                )
-                AllNPCS = getnilinstances()
-                for i, v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
-                    table.insert(AllNPCS, v)
-                end
-                for i, v in pairs(AllNPCS) do
-                    if v.Name == "Mysterious Force" then
-                        TempleMysteriousNPC1 = v
-                    end
-                    if v.Name == "Mysterious Force3" then
-                        TempleMysteriousNPC2 = v
-                    end
-                end
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                    TempleMysteriousNPC2.HumanoidRootPart.CFrame
-                wait(0.3)
-                if
-                    (TempleMysteriousNPC2.HumanoidRootPart.Position -
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 15
-                 then
-                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "TeleportBack")
-                end
-                wait(0.75)
+    local min3 = (vcspos - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if min2 <= min3 then
+        return choose
+    end
+end    
+function requestEntrance(aJ)
+    local args = {"requestEntrance", aJ}
+    game.ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))    
+    local oldcframe = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    local char = game.Players.LocalPlayer.Character.HumanoidRootPart
+    char.CFrame = CFrame.new(oldcframe.X, oldcframe.Y + 50, oldcframe.Z)    
+    task.wait(0.5)
+end   
+function topos(Tween_Pos)
+    pcall(function()
+        if game:GetService("Players").LocalPlayer 
+            and game:GetService("Players").LocalPlayer.Character 
+            and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") 
+            and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") 
+            and game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 
+            and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
+            if not TweenSpeed then
+                TweenSpeed = 350
             end
-        )
-    end
-end
-function AntiLowHealth(NewY)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-        CFrame.new(
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
-        NewY,
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
-    )
-    wait()
-end
-
-game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
-local tween_s = game:service "TweenService"
-function topos(targetCFrame,dontmove)
-    if CheckPlayerAlive() then
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
-            return warn('I cant tween right now: Teleport Perm Missing')
-        end
-        if not TweenSpeed or type(TweenSpeed) ~= "number" then
-            TweenSpeed = 325
-        end
-        local targetPos = targetCFrame.Position
-        local Distance =
-            (targetPos -
-            game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
-        if Distance <= 300 then
-            if not dontmove then 
-                game.Players.LocalPlayer.Character:MoveTo(targetCFrame.Position)
-                return
+            DefualtY = Tween_Pos.Y
+            TargetY = Tween_Pos.Y
+            targetCFrameWithDefualtY = CFrame.new(Tween_Pos.X, DefualtY, Tween_Pos.Z)
+            targetPos = Tween_Pos.Position
+            oldcframe = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+            Distance = (targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
+            if Distance <= 300 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Tween_Pos
+            end
+            local aM = CheckNearestTeleporter(Tween_Pos)
+            if aM then
+                pcall(function()
+                    tween:Cancel()
+                end)
+                requestEntrance(aM)
+            end
+            b1 = CFrame.new(
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+                DefualtY,
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+            )
+            IngoreY = true
+            if IngoreY and (b1.Position - targetCFrameWithDefualtY.Position).Magnitude > 5 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+                    DefualtY,
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+                )
+                local tweenfunc = {}
+                local aN = game:GetService("TweenService")
+                local aO = TweenInfo.new(
+                    (targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude / TweenSpeed,
+                    Enum.EasingStyle.Linear
+                )
+                tween = aN:Create(
+                    game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
+                    aO,
+                    {CFrame = targetCFrameWithDefualtY}
+                )
+                tween:Play()
+                function tweenfunc:Stop()
+                    tween:Cancel()
+                end
+                tween.Completed:Wait()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+                    TargetY,
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+                )
             else
-                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(targetCFrame.Position)
-            end
-        end
-        local bmg, bmg2 = CheckNearestTeleporter(targetCFrame)
-        if bmg then
-            local timetry = 0
-            repeat
-                pcall(
-                    function()
-                        _G.tween:Cancel()
-                    end
+                local tweenfunc = {}
+                local aN = game:GetService("TweenService")
+                local aO = TweenInfo.new(
+                    (targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude / TweenSpeed,
+                    Enum.EasingStyle.Linear
                 )
-                wait()
-                requestEntrance(bmg, bmg2)
-                timetry = timetry + 1
-            until not CheckNearestTeleporter(targetCFrame) or timetry >= 10
-            if timetry >= 10 and CheckNearestTeleporter(targetCFrame) then
-                if bmg2 == "Temple Of Time" then
-                    table.insert(BlackListLocation, bmg2)
+                tween = aN:Create(
+                    game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
+                    aO,
+                    {CFrame = Tween_Pos}
+                )
+                tween:Play()
+                function tweenfunc:Stop()
+                    tween:Cancel()
                 end
-                game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                tween.Completed:Wait()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+                    TargetY,
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+                )
             end
-        end
-            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-1 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+1)  then 
-                if _G.tween then 
-                    _G.tween:Cancel()
-                    _G.tween = nil 
-                end
-                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,(targetCFrame.Y > 20 and targetCFrame.Y or targetCFrame.Y+30),game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
+            if not tween then
+                return tween
             end
-        end)
-        local tweenfunc = {}
-        local info =
-            TweenInfo.new(
-                (targetPos -
-                game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude /
-                TweenSpeed,
-            Enum.EasingStyle.Linear
-        )
-        _G.tween =
-            tween_s:Create(
-            game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
-            info,
-            {CFrame = targetCFrame}
-        )
-        _G.tween:Play()
-        function tweenfunc:Stop()
-            _G.tween:Cancel()
+            return tweenfunc
         end
-        _G.TweenStats = _G.tween.PlaybackState
-        _G.tween.Completed:Wait()
-        _G.TweenStats = _G.tween.PlaybackState
-        return tweenfunc 
-    end
+    end)
 end
-
 function StopTween(target)
     pcall(function()
         if not target then
